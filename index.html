@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>School Helper</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+			background-size: 400% 400%;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-family: 'Arial', sans-serif;
+			overflow: hidden;
+			animation: gradientShift 8s ease infinite;
+		}
+
+		@keyframes gradientShift {
+			0% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+
+			100% {
+				background-position: 0% 50%;
+			}
+		}
+
+		.message {
+			font-size: 4rem;
+			font-weight: bold;
+			color: white;
+			text-shadow:
+				0 0 10px rgba(255, 255, 255, 0.8),
+				0 0 20px rgba(255, 255, 255, 0.6),
+				0 0 30px rgba(255, 255, 255, 0.4);
+			text-align: center;
+			animation: textGlow 2s ease-in-out infinite alternate;
+			z-index: 10;
+			position: relative;
+		}
+
+		@keyframes textGlow {
+			from {
+				text-shadow:
+					0 0 10px rgba(255, 255, 255, 0.8),
+					0 0 20px rgba(255, 255, 255, 0.6),
+					0 0 30px rgba(255, 255, 255, 0.4);
+				transform: scale(1);
+			}
+
+			to {
+				text-shadow:
+					0 0 20px rgba(255, 255, 255, 1),
+					0 0 30px rgba(255, 255, 255, 0.8),
+					0 0 40px rgba(255, 255, 255, 0.6);
+				transform: scale(1.05);
+			}
+		}
+
+		@keyframes float {
+			to {
+				transform: translateY(-1000px) rotate(360deg);
+				opacity: 0;
+			}
+		}
+
+		.hearts {
+			position: absolute;
+			animation: heartFloat linear infinite;
+			opacity: 0.7;
+		}
+
+		@keyframes heartFloat {
+			to {
+				transform: translateY(-500px) rotate(360deg);
+				opacity: 0;
+			}
+		}
+
+		.sparkle {
+			position: absolute;
+			width: 4px;
+			height: 4px;
+			background: gold;
+			border-radius: 50%;
+			animation: sparkleTwinkle 1.5s ease-in-out infinite;
+		}
+
+		@keyframes sparkleTwinkle {
+
+			0%,
+			100% {
+				opacity: 0;
+				transform: scale(0);
+			}
+
+			50% {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
+
+		.gif {
+			width: 140px;
+			height: 140px;
+			margin-left: 20px;
+			vertical-align: middle;
+			filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+		}
+
+		.particle, .hearts {
+    position: absolute;
+    animation: float linear infinite;
+    opacity: 0.7;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+}
+	</style>
+</head>
+
+<body>
+	<div class="message">
+		ты дура
+		<img src="dura.gif" class="gif" alt="sparkle">
+	</div>
+
+	<script>
+		function createParticles() {
+			for (let i = 0; i < 50; i++) {
+				setTimeout(() => {
+					const particle = document.createElement('img');
+					particle.className = 'particle';
+					particle.src = 'dura.gif';
+					particle.style.left = `${Math.random() * 100}vw`;
+					particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
+					document.body.appendChild(particle);
+
+					setTimeout(() => {
+						particle.remove();
+					}, 8000);
+				}, i * 200);
+			}
+
+			for (let i = 0; i < 20; i++) {
+				setTimeout(() => {
+					const heart = document.createElement('img');
+					heart.className = 'hearts';
+					heart.src = 'dura.gif';
+					heart.style.left = `${Math.random() * 100}vw`;
+					heart.style.animationDuration = `${Math.random() * 8 + 5}s`;
+					heart.style.width = `${Math.random() * 30 + 20}px`;
+					heart.style.height = `${Math.random() * 30 + 20}px`;
+					document.body.appendChild(heart);
+
+					setTimeout(() => {
+						heart.remove();
+					}, 13000);
+				}, i * 500);
+			}
+		}
+
+		createParticles();
+		setInterval(createParticles, 3000);
+
+		document.body.addEventListener('click', function (e) {
+			for (let i = 0; i < 20; i++) {
+				const particle = document.createElement('img');
+				particle.className = 'particle';
+				particle.src = 'dura.gif';
+				particle.style.left = `${e.clientX}px`;
+				particle.style.top = `${e.clientY}px`;
+				particle.style.animationDuration = '2s';
+				particle.style.width = '30px';
+				particle.style.height = '30px';
+				document.body.appendChild(particle);
+
+				setTimeout(() => {
+					particle.remove();
+				}, 2000);
+			}
+		});
+	</script>
+</body>
+
+</html>
