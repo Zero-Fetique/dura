@@ -141,7 +141,7 @@
 
 	<script>
     function createParticles() {
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 7; i++) {
             setTimeout(() => {
                 const particle = document.createElement('img');
                 particle.className = 'particle';
@@ -161,10 +161,10 @@
     }
 
     createParticles();
-    setInterval(createParticles, 8000);
+    setInterval(createParticles, 12000);
 
     document.body.addEventListener('click', function (e) {
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 3; i++) {
             const particle = document.createElement('img');
             particle.className = 'particle';
             particle.src = 'dura.gif';
