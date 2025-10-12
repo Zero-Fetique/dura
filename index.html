@@ -140,43 +140,61 @@
 	</div>
 
 	<script>
+    let particleCount = 0;
+    const MAX_PARTICLES = 10;
+
     function createParticles() {
-        for (let i = 0; i < 3; i++) {
+        if (particleCount >= MAX_PARTICLES) return;
+        
+        const count = Math.floor(Math.random() * 3) + 3;
+        
+        for (let i = 0; i < count; i++) {
+            if (particleCount >= MAX_PARTICLES) break;
+            
             setTimeout(() => {
                 const particle = document.createElement('img');
                 particle.className = 'particle';
                 particle.src = 'dura.gif';
                 particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.animationDuration = `${Math.random() * 8 + 5}s`;
-                particle.style.width = '30px';
-                particle.style.height = '30px';
+                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                particle.style.width = '20px';
+                particle.style.height = '20px';
                 document.body.appendChild(particle);
+                particleCount++;
 
                 setTimeout(() => {
                     particle.remove();
-                }, 13000);
-            }, i * 500);
+                    particleCount--;
+                }, 8000 + Math.random() * 7000);
+            }, i * 1000);
         }
-
     }
 
     createParticles();
-    setInterval(createParticles, 20000);
+    setInterval(createParticles, 15000);
 
     document.body.addEventListener('click', function (e) {
-        for (let i = 0; i < 3; i++) {
+        if (particleCount >= MAX_PARTICLES) return;
+        
+        const count = Math.floor(Math.random() * 2) + 2;
+        
+        for (let i = 0; i < count; i++) {
+            if (particleCount >= MAX_PARTICLES) break;
+            
             const particle = document.createElement('img');
             particle.className = 'particle';
             particle.src = 'dura.gif';
-            particle.style.left = `${e.clientX}px`;
-            particle.style.top = `${e.clientY}px`;
+            particle.style.left = `${e.clientX + (Math.random() - 0.5) * 50}px`;
+            particle.style.top = `${e.clientY + (Math.random() - 0.5) * 50}px`;
             particle.style.animationDuration = '3s';
-            particle.style.width = '25px';
-            particle.style.height = '25px';
+            particle.style.width = '15px';
+            particle.style.height = '15px';
             document.body.appendChild(particle);
+            particleCount++;
 
             setTimeout(() => {
                 particle.remove();
+                particleCount--;
             }, 3000);
         }
     });
