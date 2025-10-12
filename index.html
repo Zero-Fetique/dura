@@ -141,7 +141,7 @@
 
 	<script>
     let particleCount = 0;
-    const MAX_PARTICLES = 10;
+    const MAX_PARTICLES = 20;
 
     function createParticles() {
         if (particleCount >= MAX_PARTICLES) return;
@@ -157,8 +157,8 @@
                 particle.src = 'dura.gif';
                 particle.style.left = `${Math.random() * 100}vw`;
                 particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
-                particle.style.width = '20px';
-                particle.style.height = '20px';
+                particle.style.width = '60px';
+                particle.style.height = '60px';
                 document.body.appendChild(particle);
                 particleCount++;
 
