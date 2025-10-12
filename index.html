@@ -141,7 +141,7 @@
 
 	<script>
     function createParticles() {
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 3; i++) {
             setTimeout(() => {
                 const particle = document.createElement('img');
                 particle.className = 'particle';
@@ -161,7 +161,7 @@
     }
 
     createParticles();
-    setInterval(createParticles, 12000);
+    setInterval(createParticles, 20000);
 
     document.body.addEventListener('click', function (e) {
         for (let i = 0; i < 3; i++) {
