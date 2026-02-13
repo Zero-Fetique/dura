@@ -362,15 +362,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.95);
-            width: min(420px, 88vw);
-            height: min(460px, vh);
+            width: min(520px, 92vw);
+            height: min(460px, 82vh);
             background: #fff5f0;
             background-image: 
                 radial-gradient(circle at 5% 8%, #ffccdd 2px, transparent 2px),
                 radial-gradient(circle at 94% 92%, #ffccdd 2px, transparent 2px);
             border-radius: 30px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 4px #ffaacc;
-            padding: 30px 25px;
+            padding: 35px 30px;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
@@ -394,21 +394,21 @@
 
         .corner {
             position: absolute;
-            width: 35px;
-            height: 35px;
+            width: 45px;
+            height: 45px;
             border: 3px solid #ff99bb;
         }
 
-        .corner-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-radius: 15px 0 0 0; }
-        .corner-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; border-radius: 0 15px 0 0; }
-        .corner-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; border-radius: 0 0 0 15px; }
-        .corner-br { bottom: 12px; right: 12px; border-left: none; border-top: none; border-radius: 0 0 15px 0; }
+        .corner-tl { top: 15px; left: 15px; border-right: none; border-bottom: none; border-radius: 18px 0 0 0; }
+        .corner-tr { top: 15px; right: 15px; border-left: none; border-bottom: none; border-radius: 0 18px 0 0; }
+        .corner-bl { bottom: 15px; left: 15px; border-right: none; border-top: none; border-radius: 0 0 0 18px; }
+        .corner-br { bottom: 15px; right: 15px; border-left: none; border-top: none; border-radius: 0 0 18px 0; }
 
         .paper-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: #cc3366;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 700;
             letter-spacing: 1px;
             font-family: 'Caveat', cursive;
@@ -416,8 +416,8 @@
         }
 
         .paper-body {
-            font-size: 1.3rem;
-            line-height: 1.6;
+            font-size: 1.6rem;
+            line-height: 1.7;
             color: #551a33;
             text-align: center;
             white-space: pre-line;
@@ -430,12 +430,12 @@
         }
 
         .paper-signature {
-            font-size: 1.4rem;
+            font-size: 1.7rem;
             color: #aa4477;
             text-align: right;
             font-style: italic;
-            margin-top: 15px;
-            padding-top: 12px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 2px dashed #ff99bb;
             font-family: 'Caveat', cursive;
         }
@@ -482,9 +482,9 @@
         @media (max-width: 500px) {
             .heart-core { width: 250px; height: 250px; }
             .paper-slide { padding: 20px; }
-            .paper-title { font-size: 1.6rem; }
-            .paper-body { font-size: 1.1rem; }
-            .paper-signature { font-size: 1.2rem; }
+            .paper-title { font-size: 1.8rem; }
+            .paper-body { font-size: 1.3rem; }
+            .paper-signature { font-size: 1.4rem; }
             .save-button { padding: 10px 20px; font-size: 1rem; }
             .heart-float { font-size: 40px; }
             .petal { font-size: 22px; }
@@ -543,13 +543,13 @@
         <div class="paper-title">💗 моей дурочке 💗</div>
         <div class="paper-body">
             ты согреваешь мое сердце,
-						как самая большая звездочка
-						нашу солнечную систему.
-
-						ты точно также важна для меня,
-						как и наше солнце.
-
-						будь моей валентинкой навсегда.
+            как самая большая звездочка
+            нашу солнечную систему.
+            
+            ты точно также важна для меня,
+            как и наше солнце.
+            
+            будь моей валентинкой навсегда.
             
             я тебя люблю.
         </div>
@@ -591,10 +591,17 @@
                 if (!paperSlide.classList.contains('show')) return;
                 
                 try {
-                    const canvas = await html2canvas(paperSlide, { scale: 2, backgroundColor: '#fff5f0' });
+                    const canvas = await html2canvas(paperSlide, { 
+                        scale: 2, 
+                        backgroundColor: '#fff5f0',
+                        logging: false,
+                        useCORS: true
+                    });
+                    
+                    const image = canvas.toDataURL('image/png');
                     const link = document.createElement('a');
-                    link.download = `letter-${new Date().getTime()}.png`;
-                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'letter.png';
+                    link.href = image;
                     link.click();
                 } catch (e) {}
                 
@@ -653,7 +660,7 @@
                 }
             }
 
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 10; i++) {
                 setTimeout(() => {
                     const h = document.createElement('div');
                     h.className = 'heart-float';
@@ -662,10 +669,10 @@
                     h.style.animationDuration = (Math.random() * 18 + 18) + 's';
                     floatingHearts.appendChild(h);
                     setTimeout(() => h.remove(), 20000);
-                }, i * 200);
+                }, i * 300);
             }
 
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 10; i++) {
                 setTimeout(() => {
                     const p = document.createElement('div');
                     p.className = 'petal';
@@ -674,11 +681,11 @@
                     p.style.animationDuration = (Math.random() * 12 + 12) + 's';
                     sakuraPetals.appendChild(p);
                     setTimeout(() => p.remove(), 15000);
-                }, i * 200);
+                }, i * 300);
             }
 
             setInterval(() => {
-                if (document.visibilityState === 'visible') {
+                if (floatingHearts.children.length < 15) {
                     const h = document.createElement('div');
                     h.className = 'heart-float';
                     h.innerHTML = ['❤️','💕','💗','💖'][Math.floor(Math.random()*4)];
@@ -686,20 +693,20 @@
                     h.style.animationDuration = (Math.random() * 18 + 18) + 's';
                     floatingHearts.appendChild(h);
                     setTimeout(() => h.remove(), 20000);
+                }
+            }, 5000);
+
+            setInterval(() => {
+                if (sakuraPetals.children.length < 15) {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    p.innerHTML = '🌸';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.animationDuration = (Math.random() * 12 + 12) + 's';
+                    sakuraPetals.appendChild(p);
+                    setTimeout(() => p.remove(), 15000);
                 }
             }, 4000);
-
-            setInterval(() => {
-                if (document.visibilityState === 'visible') {
-                    const p = document.createElement('div');
-                    p.className = 'petal';
-                    p.innerHTML = '🌸';
-                    p.style.left = Math.random() * 100 + '%';
-                    p.style.animationDuration = (Math.random() * 12 + 12) + 's';
-                    sakuraPetals.appendChild(p);
-                    setTimeout(() => p.remove(), 15000);
-                }
-            }, 3000);
 
             setTimeout(() => {
                 prologue.classList.add('fade-out');
