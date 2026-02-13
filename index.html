@@ -1,205 +1,758 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>School Helper</title>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💌 сердце, которое согрела ты</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-		body {
-			background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
-			background-size: 400% 400%;
-			height: 100vh;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-family: 'Arial', sans-serif;
-			overflow: hidden;
-			animation: gradientShift 8s ease infinite;
-		}
+        body {
+            background: #1a0f1a;
+            font-family: 'Caveat', 'Georgia', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            overflow: hidden;
+            color: #ffffff;
+        }
 
-		@keyframes gradientShift {
-			0% {
-				background-position: 0% 50%;
-			}
+        .dark-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #2d1a2a, #1a0f1a, #120a12);
+            z-index: -2;
+        }
 
-			50% {
-				background-position: 100% 50%;
-			}
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-			100% {
-				background-position: 0% 50%;
-			}
-		}
+        .heart-float {
+            position: absolute;
+            font-size: 50px;
+            opacity: 0.3;
+            filter: blur(3px) drop-shadow(0 0 15px #ff99bb);
+            animation: floatHeart linear infinite;
+            color: #ff99bb;
+            pointer-events: none;
+            text-shadow: 0 0 20px #ff66aa;
+        }
 
-		.message {
-			font-size: 4rem;
-			font-weight: bold;
-			color: white;
-			text-shadow:
-				0 0 10px rgba(255, 255, 255, 0.8),
-				0 0 20px rgba(255, 255, 255, 0.6),
-				0 0 30px rgba(255, 255, 255, 0.4);
-			text-align: center;
-			animation: textGlow 2s ease-in-out infinite alternate;
-			z-index: 10;
-			position: relative;
-		}
+        @keyframes floatHeart {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0.2; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
 
-		@keyframes textGlow {
-			from {
-				text-shadow:
-					0 0 10px rgba(255, 255, 255, 0.8),
-					0 0 20px rgba(255, 255, 255, 0.6),
-					0 0 30px rgba(255, 255, 255, 0.4);
-				transform: scale(1);
-			}
+        .sakura-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-			to {
-				text-shadow:
-					0 0 20px rgba(255, 255, 255, 1),
-					0 0 30px rgba(255, 255, 255, 0.8),
-					0 0 40px rgba(255, 255, 255, 0.6);
-				transform: scale(1.05);
-			}
-		}
+        .petal {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0.4;
+            filter: blur(2px) drop-shadow(0 0 10px #ffaacc);
+            animation: petalFloatToHeart linear infinite;
+            color: #ffaacc;
+            pointer-events: none;
+            text-shadow: 0 0 15px #ff88bb;
+        }
 
-		@keyframes float {
-			to {
-				transform: translateY(-1000px) rotate(360deg);
-				opacity: 0;
-			}
-		}
+        @keyframes petalFloatToHeart {
+            0% { transform: translate(120vw, -20vh) rotate(0deg); opacity: 0.3; }
+            50% { opacity: 0.5; }
+            100% { transform: translate(40vw, 50vh) rotate(360deg); opacity: 0; }
+        }
 
-		.hearts {
-			position: absolute;
-			animation: heartFloat linear infinite;
-			opacity: 0.7;
-		}
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 0;
+            pointer-events: none;
+        }
 
-		@keyframes heartFloat {
-			to {
-				transform: translateY(-500px) rotate(360deg);
-				opacity: 0;
-			}
-		}
+        .achievement-container {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000000;
+            pointer-events: none;
+        }
 
-		.sparkle {
-			position: absolute;
-			width: 4px;
-			height: 4px;
-			background: gold;
-			border-radius: 50%;
-			animation: sparkleTwinkle 1.5s ease-in-out infinite;
-		}
+        .achievement {
+            background: rgba(40, 20, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff99bb;
+            border-radius: 40px;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 5px 20px rgba(255, 100, 150, 0.3);
+            transform: translateY(-150px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.3s;
+            max-width: 85%;
+        }
 
-		@keyframes sparkleTwinkle {
+        .achievement.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
-			0%,
-			100% {
-				opacity: 0;
-				transform: scale(0);
-			}
+        .achievement.hide {
+            transform: translateY(-150px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.2s;
+        }
 
-			50% {
-				opacity: 1;
-				transform: scale(1);
-			}
-		}
+        .achievement-icon {
+            font-size: 2rem;
+            color: #ff99bb;
+        }
 
-		.gif {
-			width: 80px;
-			height: 80px;
-			margin-left: 20px;
-			vertical-align: middle;
-			filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-		}
+        .achievement-title {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
 
-		.particle, .hearts {
-    position: absolute;
-    animation: float linear infinite;
-    opacity: 0.7;
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
-}
-	</style>
+        .prologue {
+            position: fixed;
+            z-index: 100000;
+            color: #ffffff;
+            font-size: 1.7rem;
+            text-align: center;
+            max-width: 80%;
+            line-height: 2;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 500;
+            opacity: 1;
+            transition: opacity 1.5s ease;
+            pointer-events: none;
+            text-shadow: 0 0 30px #ff99bb, 0 0 60px #ff66aa;
+            font-family: 'Caveat', cursive;
+        }
+
+        .prologue.fade-out {
+            opacity: 0;
+        }
+
+        .heart-chamber {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 2s ease;
+            pointer-events: none;
+        }
+
+        .heart-chamber.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .heart-core {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            filter: drop-shadow(0 0 50px rgba(255, 100, 150, 0.8));
+        }
+
+        .heart-svg {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 101;
+            stroke: rgba(255, 255, 255, 0.5);
+            stroke-width: 1.5;
+        }
+
+        .warmth-meter {
+            position: fixed;
+            bottom: 70px;
+            left: 15%;
+            width: 70%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.8s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .warmth-meter.visible {
+            opacity: 1;
+        }
+
+        .warmth-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff99bb, #ff66aa, #ff3388);
+            border-radius: 10px;
+            transition: width 0.2s ease;
+            box-shadow: 0 0 20px #ff66aa;
+        }
+
+        .warmth-text {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.8s;
+            font-weight: 500;
+            text-shadow: 0 0 20px #ff99bb;
+            font-family: 'Caveat', cursive;
+        }
+
+        .warmth-text.visible {
+            opacity: 1;
+        }
+
+        .fire-particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            animation: fireFloat 1.2s ease-out forwards;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px #ffaa55);
+            z-index: 200;
+            color: #ffaa55;
+        }
+
+        @keyframes fireFloat {
+            0% { transform: translate(0, 0) scale(0.5); opacity: 0.9; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(1.3); opacity: 0; }
+        }
+
+        .envelope-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 280px;
+            height: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.5s ease, opacity 0.4s, visibility 0.4s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-container.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .envelope-container.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+
+        .envelope {
+            width: 100%;
+            height: 100%;
+            background: #ffddee;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 3px #ffaacc;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: #ffccdd;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            border-radius: 20px 20px 0 0;
+            transform-origin: top;
+            transition: transform 0.4s ease;
+            z-index: 15;
+            border-bottom: 2px solid #ff99bb;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-heart {
+            font-size: 3.5rem;
+            color: #ff3388;
+            filter: drop-shadow(0 0 30px #ff66aa);
+            animation: heartPulse 1.6s infinite;
+            z-index: 20;
+            position: relative;
+            cursor: pointer;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .paper-slide {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: min(420px, 88vw);
+            height: min(460px, vh);
+            background: #fff5f0;
+            background-image: 
+                radial-gradient(circle at 5% 8%, #ffccdd 2px, transparent 2px),
+                radial-gradient(circle at 94% 92%, #ffccdd 2px, transparent 2px);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 4px #ffaacc;
+            padding: 30px 25px;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.4s ease, visibility 0.5s;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Caveat', cursive;
+        }
+
+        .paper-slide.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .paper-slide.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+
+        .corner {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            border: 3px solid #ff99bb;
+        }
+
+        .corner-tl { top: 12px; left: 12px; border-right: none; border-bottom: none; border-radius: 15px 0 0 0; }
+        .corner-tr { top: 12px; right: 12px; border-left: none; border-bottom: none; border-radius: 0 15px 0 0; }
+        .corner-bl { bottom: 12px; left: 12px; border-right: none; border-top: none; border-radius: 0 0 0 15px; }
+        .corner-br { bottom: 12px; right: 12px; border-left: none; border-top: none; border-radius: 0 0 15px 0; }
+
+        .paper-title {
+            font-size: 1.8rem;
+            color: #cc3366;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Caveat', cursive;
+            text-shadow: 0 0 10px #ffaacc;
+        }
+
+        .paper-body {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #551a33;
+            text-align: center;
+            white-space: pre-line;
+            font-family: 'Caveat', cursive;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .paper-signature {
+            font-size: 1.4rem;
+            color: #aa4477;
+            text-align: right;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px dashed #ff99bb;
+            font-family: 'Caveat', cursive;
+        }
+
+        .save-button {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #ffddee;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff99bb;
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: #551a33;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), 0 0 0 2px #ffaacc;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            z-index: 3000;
+            font-weight: 600;
+        }
+
+        .save-button.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .save-button.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+
+        .save-button .icon {
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 500px) {
+            .heart-core { width: 250px; height: 250px; }
+            .paper-slide { padding: 20px; }
+            .paper-title { font-size: 1.6rem; }
+            .paper-body { font-size: 1.1rem; }
+            .paper-signature { font-size: 1.2rem; }
+            .save-button { padding: 10px 20px; font-size: 1rem; }
+            .heart-float { font-size: 40px; }
+            .petal { font-size: 22px; }
+        }
+    </style>
 </head>
-
 <body>
-	<div class="message">
-		ты дура
-		ти дура
-		<img src="dura.gif" class="gif" alt="sparkle">
-	</div>
 
-	<script>
-    let particleCount = 0;
-    const MAX_PARTICLES = 20;
+    <div class="dark-bg"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="sakura-petals" id="sakuraPetals"></div>
+    <div class="blur-overlay"></div>
+    <div class="achievement-container" id="achievementContainer"></div>
 
-    function createParticles() {
-        if (particleCount >= MAX_PARTICLES) return;
+    <div class="prologue" id="prologue">
+        ❄️
+        <div style="margin-top: 30px; font-size: 1.8rem;">мое сердце остыло</div>
+        <div style="margin-top: 20px; font-size: 1.2rem;">но ты можешь его согреть</div>
+        <div style="margin-top: 40px; font-size: 1rem;">коснись сердца</div>
+    </div>
 
-        const count = Math.floor(Math.random() * 3) + 3;
+    <div class="heart-chamber" id="heartChamber">
+        <div class="heart-core" id="heartCore">
+            <svg class="heart-svg" viewBox="0 0 100 100">
+                <defs>
+                    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#335577" id="gradStart"/>
+                        <stop offset="100%" stop-color="#112233" id="gradEnd"/>
+                    </linearGradient>
+                </defs>
+                <path d="M50,25 C20,0 0,30 0,45 C0,70 30,85 50,95 C70,85 100,70 100,45 C100,30 80,0 50,25 Z" 
+                      fill="url(#heartGrad)" stroke="white" stroke-width="1.5"/>
+            </svg>
+        </div>
+    </div>
 
-        for (let i = 0; i < count; i++) {
-            if (particleCount >= MAX_PARTICLES) break;
+    <div class="warmth-meter" id="warmthMeter">
+        <div class="warmth-fill" id="warmthFill"></div>
+    </div>
+    <div class="warmth-text" id="warmthText">❤️‍🔥 согрей меня</div>
 
-            setTimeout(() => {
-                const particle = document.createElement('img');
-                particle.className = 'particle';
-                particle.src = 'dura.gif';
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
-                particle.style.width = '60px';
-                particle.style.height = '60px';
-                document.body.appendChild(particle);
-                particleCount++;
+    <div id="fireContainer"></div>
 
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-heart" id="envelopeHeart">💌</div>
+        </div>
+    </div>
+
+    <div class="paper-slide" id="paperSlide">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+        <div class="paper-title">💗 моей дурочке 💗</div>
+        <div class="paper-body">
+            ты согреваешь мое сердце,
+						как самая большая звездочка
+						нашу солнечную систему.
+
+						ты точно также важна для меня,
+						как и наше солнце.
+
+						будь моей валентинкой навсегда.
+            
+            я тебя люблю.
+        </div>
+        <div class="paper-signature">❤️‍🔥 твой навсегда</div>
+    </div>
+
+    <div class="save-button" id="saveButton">
+        <span class="icon">📸</span>
+        <span>сохранить и закрыть</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        (function() {
+            for (let i = 0; i <= 9999; i++) clearInterval(i);
+            document.querySelectorAll('.particle').forEach(p => p.remove());
+
+            const prologue = document.getElementById('prologue');
+            const heartChamber = document.getElementById('heartChamber');
+            const heartCore = document.getElementById('heartCore');
+            const warmthMeter = document.getElementById('warmthMeter');
+            const warmthFill = document.getElementById('warmthFill');
+            const warmthText = document.getElementById('warmthText');
+            const floatingHearts = document.getElementById('floatingHearts');
+            const sakuraPetals = document.getElementById('sakuraPetals');
+            const achievementContainer = document.getElementById('achievementContainer');
+            const envelopeContainer = document.getElementById('envelopeContainer');
+            const envelope = document.getElementById('envelope');
+            const envelopeHeart = document.getElementById('envelopeHeart');
+            const paperSlide = document.getElementById('paperSlide');
+            const fireContainer = document.getElementById('fireContainer');
+            const saveButton = document.getElementById('saveButton');
+            
+            let warmth = 0;
+            let isPaperOpen = false;
+            let hundredShown = false;
+
+            async function saveAndClose() {
+                if (!paperSlide.classList.contains('show')) return;
+                
+                try {
+                    const canvas = await html2canvas(paperSlide, { scale: 2, backgroundColor: '#fff5f0' });
+                    const link = document.createElement('a');
+                    link.download = `letter-${new Date().getTime()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                } catch (e) {}
+                
+                paperSlide.classList.add('fade-out');
+                paperSlide.classList.remove('show');
+                
+                saveButton.classList.add('fade-out');
+                saveButton.classList.remove('show');
+                
+                envelopeContainer.classList.add('fade-out');
+                envelopeContainer.classList.remove('show');
+                
                 setTimeout(() => {
-                    particle.remove();
-                    particleCount--;
-                }, 8000 + Math.random() * 7000);
-            }, i * 1000);
-        }
-    }
+                    envelope.classList.remove('open');
+                }, 300);
+                
+                isPaperOpen = false;
+            }
 
-    createParticles();
-    setInterval(createParticles, 15000);
+            function showAchievement() {
+                if (hundredShown) return;
+                hundredShown = true;
+                const a = document.createElement('div');
+                a.className = 'achievement';
+                a.innerHTML = '<div class="achievement-icon">💖</div><div class="achievement-title">💯 сердце согрето!</div>';
+                achievementContainer.appendChild(a);
+                setTimeout(() => a.classList.add('show'), 10);
+                setTimeout(() => { a.classList.add('hide'); setTimeout(() => a.remove(), 300); }, 2500);
+            }
 
-    document.body.addEventListener('click', function (e) {
-        if (particleCount >= MAX_PARTICLES) return;
+            function updateHeartColor(p) {
+                const s = document.getElementById('gradStart');
+                const e = document.getElementById('gradEnd');
+                let r, g, b;
+                if (p < 30) { r = 70 + p*2; g = 80 + p*1.5; b = 120; }
+                else if (p < 60) { r = 130 + (p-30)*3; g = 80 + (p-30)*0.8; b = 90 - (p-30)*0.8; }
+                else if (p < 85) { r = 220 + (p-60); g = 70 + (p-60)*2.5; b = 50 + (p-60)*0.8; }
+                else { r = 255; g = 130 + (p-85)*3; b = 70 + (p-85)*2; }
+                s?.setAttribute('stop-color', `rgb(${Math.min(255,r)},${Math.min(220,g)},${Math.min(180,b)})`);
+                e?.setAttribute('stop-color', `rgb(${Math.min(215,r-40)},${Math.min(190,g-30)},${Math.min(160,b-20)})`);
+            }
 
-        const count = Math.floor(Math.random() * 2) + 2;
+            function createFire(x, y) {
+                for (let i = 0; i < 8; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'fire-particle';
+                    p.innerHTML = ['🔥','🔥','✨'][Math.floor(Math.random()*3)];
+                    p.style.left = x + 'px';
+                    p.style.top = y + 'px';
+                    const a = Math.random() * Math.PI * 2;
+                    const d = 40 + Math.random() * 60;
+                    p.style.setProperty('--dx', Math.cos(a) * d + 'px');
+                    p.style.setProperty('--dy', Math.sin(a) * d - 30 + 'px');
+                    fireContainer.appendChild(p);
+                    setTimeout(() => p.remove(), 1000);
+                }
+            }
 
-        for (let i = 0; i < count; i++) {
-            if (particleCount >= MAX_PARTICLES) break;
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const h = document.createElement('div');
+                    h.className = 'heart-float';
+                    h.innerHTML = ['❤️','💕','💗','💖'][Math.floor(Math.random()*4)];
+                    h.style.left = Math.random() * 100 + '%';
+                    h.style.animationDuration = (Math.random() * 18 + 18) + 's';
+                    floatingHearts.appendChild(h);
+                    setTimeout(() => h.remove(), 20000);
+                }, i * 200);
+            }
 
-            const particle = document.createElement('img');
-            particle.className = 'particle';
-            particle.src = 'dura.gif';
-            particle.style.left = `${e.clientX + (Math.random() - 0.5) * 50}px`;
-            particle.style.top = `${e.clientY + (Math.random() - 0.5) * 50}px`;
-            particle.style.animationDuration = '3s';
-            particle.style.width = '15px';
-            particle.style.height = '15px';
-            document.body.appendChild(particle);
-            particleCount++;
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    p.innerHTML = '🌸';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.animationDuration = (Math.random() * 12 + 12) + 's';
+                    sakuraPetals.appendChild(p);
+                    setTimeout(() => p.remove(), 15000);
+                }, i * 200);
+            }
+
+            setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    const h = document.createElement('div');
+                    h.className = 'heart-float';
+                    h.innerHTML = ['❤️','💕','💗','💖'][Math.floor(Math.random()*4)];
+                    h.style.left = Math.random() * 100 + '%';
+                    h.style.animationDuration = (Math.random() * 18 + 18) + 's';
+                    floatingHearts.appendChild(h);
+                    setTimeout(() => h.remove(), 20000);
+                }
+            }, 4000);
+
+            setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    const p = document.createElement('div');
+                    p.className = 'petal';
+                    p.innerHTML = '🌸';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.animationDuration = (Math.random() * 12 + 12) + 's';
+                    sakuraPetals.appendChild(p);
+                    setTimeout(() => p.remove(), 15000);
+                }
+            }, 3000);
 
             setTimeout(() => {
-                particle.remove();
-                particleCount--;
+                prologue.classList.add('fade-out');
+                setTimeout(() => {
+                    prologue.style.display = 'none';
+                    heartChamber.classList.add('visible');
+                    warmthMeter.classList.add('visible');
+                    warmthText.classList.add('visible');
+                }, 1500);
             }, 3000);
-        }
-    });
-</script>
-</body>
 
+            heartCore.addEventListener('click', (e) => {
+                e.stopPropagation();
+                warmth = Math.min(warmth + 8, 100);
+                warmthFill.style.width = warmth + '%';
+                updateHeartColor(warmth);
+                createFire(e.clientX, e.clientY);
+                if (warmth >= 100 && !window.heated) {
+                    window.heated = true;
+                    showAchievement();
+                    setTimeout(() => {
+                        heartChamber.classList.remove('visible');
+                        warmthMeter.classList.remove('visible');
+                        warmthText.classList.remove('visible');
+                    }, 500);
+                    setTimeout(() => envelopeContainer.classList.add('show'), 1000);
+                }
+            });
+
+            envelopeHeart.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isPaperOpen) return;
+                envelope.classList.add('open');
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => createFire(e.clientX, e.clientY), i * 30);
+                }
+                setTimeout(() => envelopeContainer.classList.remove('show'), 300);
+                setTimeout(() => {
+                    paperSlide.classList.add('show');
+                    saveButton.classList.add('show');
+                }, 1200);
+                isPaperOpen = true;
+            });
+
+            saveButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                saveAndClose();
+            });
+
+            [envelopeContainer, envelopeHeart, paperSlide, saveButton].forEach(el => {
+                el?.addEventListener('click', (e) => e.stopPropagation());
+            });
+        })();
+    </script>
+</body>
 </html>
